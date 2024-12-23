@@ -1,0 +1,7 @@
+# Ignore Visual Studio and Rider folders
+.vs/
+.idea/
+
+# Ignore build outputs
+bin/
+obj/
