@@ -38,7 +38,7 @@ internal class Ball
         PositionOfY += directionOfY;
 
 
-
+        // Wall stuff
         if (PositionOfX < 0 || PositionOfX + diameter >= formWidth)
         {
             directionOfX = -directionOfX;
@@ -49,20 +49,30 @@ internal class Ball
             directionOfY = (int)(-directionOfY * 0.8);
             //directionOfY = -directionOfY;
         }
+
+        // floor stuff
         if (PositionOfY < 0)
         {
             PositionOfY = 0;
             directionOfY = -directionOfY;
         }
 
-        if (PositionOfY + diameter >= slime.PositionOfY && // is bottom of ball below top of slime
-            PositionOfX + diameter >= slime.PositionOfX && // is right of ball to left of slime
-            PositionOfX <= slime.PositionOfX + slime.Width) // is left of ball to the right of slime
-        {
-            directionOfY = -directionOfY;
-            PositionOfY = slime.PositionOfY - diameter;
+        // slime stuff 
+        if (PositionOfY + diameter >= slime.PositionOfY && 
+            PositionOfX + diameter >= slime.PositionOfX && 
+            PositionOfX <= slime.PositionOfX + slime.Width)
+        { 
+            directionOfY = -directionOfY + slime.verticalSpeed / 4;
+            int slimeCenter = slime.PositionOfX + slime.Width / 2;
+            int ballCenter = PositionOfX + diameter / 2;
+            int impactOffset = ballCenter - slimeCenter;
+
+            directionOfX = impactOffset / 10;
+
+
+            //PositionOfY = slime.PositionOfY - diameter;
             //directionOfY = -directionOfX;
-        }
+    }
 
 
         graphics.DrawEllipse(pen, PositionOfX, PositionOfY, diameter, diameter);
